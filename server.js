@@ -1,17 +1,23 @@
 const express = require('express');
+const server = express();
 const path = require('path');
-
-const app = express();
+const authRoutes = require("./routes/authRoutes")
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser")
+const jwt = require("jsonwebtoken")
 
 // middleware
-app.use(express.static('public'));
-app.use(express.json());
+server.use(express.static('public'));
+server.use(express.json());
+server.use(cookieParser())
 
 // view engine
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '/views'));
+server.set('view engine', 'ejs');
+server.set('views', path.join(__dirname, '/views'));
 
-app.listen(80);
+server.listen(80);
 console.log('Connected!');
 
 // page routes
@@ -41,22 +47,106 @@ const db = getFirestore();
 //     })
 // })
 
-async function test() {
-
-let docRef = db.collection("test").doc("1");
-let oldCred = await docRef.get()
-
-console.log(oldCred.data().name);
-
-}
-
-test()
 
 async function update(snapshot) {
 
 }
 
-app.post('/createReadUpdate', async (req, res) => {
+const createToken = (id, maxAge) => {
+  return jwt.sign({ id }, 'n0!Ds[Lfs*2Bs!TsSd', {
+      expiresIn: 12*60*60
+  })
+}
+
+server.post('/login', (req, res) => {
+  const {parcel} = req.body;
+  console.log(parcel);
+  
+          if (!parcel) {
+              return res.status(400).send({status:"failed"})
+          }
+
+          // jwtest = createToken(parcel)
+
+          
+          db.collection("adminCol").where("username", "==", parcel.username).get().then((querySnapshot) => {
+              querySnapshot.forEach((doc) => {
+                  // doc.data() is never undefined for query doc snapshots
+                  const userDetails = doc.data()
+                  let userLoggedIn = true
+
+                  console.log(userDetails);
+
+                  console.log("parcel pass: "+parcel.password);
+
+                      if (parcel.password == userDetails.password) {
+                      const jwt = createToken(userDetails.username);
+                      // res.cookie("jwt", jwt, {httpOnly: true, maxAge: 12*60*60 * 1000})
+                      res.cookie("jwt", jwt, {httpOnly: true})
+                      res.status(200).send({
+                          status: "recieved", userLoggedIn
+                      })
+                      }
+                      else {
+                      res.status(400).send({
+                          status: "recieved", message: "Wrong user details. "
+                      })
+                      }
+
+              });
+          })
+          .catch((error) => {
+              console.log("Error getting documents: ", error);
+              res.status(400).send({
+                status: "recieved", message: "Error getting documents. "
+            })
+          });
+
+          console.log(parcel);
+
+})
+
+let tempRef = db.collection("shoes")
+
+let now = new Date()
+let rMathers = Math.floor(100000 + Math.random() * 900000)
+
+// let yeas = {
+//   "articlenumber": rMathers,
+//   "brand": "Adidas",
+//   "date": now,
+//   "model": "1",
+//   "name": "Adidas Tagilla Sneakers",
+//   "price": "1275"
+// }
+
+    // tempRef.add(yeas)
+
+    server.get('/getLatest', (req, res) => {
+      let testArray = []
+
+              db.collection("shoes").orderBy("date", "asc").limit(10).get().then((querySnapshot) => {
+                  querySnapshot.forEach((doc) => {
+                      // doc.data() is never undefined for query doc snapshots
+                      const userDetails = doc.data()
+                    testArray.push(userDetails)
+                  });
+              })
+              .then(() => {
+                res.status(400).send({
+                  status: "recieved", releases: testArray
+              })
+              })
+              .catch((error) => {
+                  console.log("Error getting documents: ", error);
+                  res.status(400).send({
+                    status: "recieved", message: "Error getting documents. "
+                })
+              });
+    
+    })
+
+server.post('/createReadUpdate', async (req, res) => {
     const {parcel} = req.body;
     console.log(parcel);
     console.log(parcel.first);
@@ -98,4 +188,4 @@ app.post('/createReadUpdate', async (req, res) => {
 })
 
 // page not found
-app.use((req, res) => res.status(404).render('404'));
+server.use((req, res) => res.status(404).render('404'));

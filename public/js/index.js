@@ -21,6 +21,22 @@ async function add() {
 
 }
 
+async function test() {
+const res = await fetch("/getlatest",
+{
+    method: 'GET',
+    headers: {
+        "Content-Type": "application/json"
+    }
+})
+
+const data = await res.json()
+console.log(data);
+
+}
+test()
+
+
 async function remove() {
     let first = document.getElementById("first").value
     console.log("First name is: "+first);
