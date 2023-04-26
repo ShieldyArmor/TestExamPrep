@@ -125,7 +125,7 @@ let rMathers = Math.floor(100000 + Math.random() * 900000)
     server.get('/getLatest', (req, res) => {
       let testArray = []
 
-              db.collection("shoes").orderBy("date", "asc").limit(10).get().then((querySnapshot) => {
+              db.collection("shoes").orderBy("date", "desc").limit(10).get().then((querySnapshot) => {
                   querySnapshot.forEach((doc) => {
                       // doc.data() is never undefined for query doc snapshots
                       const userDetails = doc.data()
@@ -146,43 +146,58 @@ let rMathers = Math.floor(100000 + Math.random() * 900000)
     
     })
 
-server.post('/createReadUpdate', async (req, res) => {
+    server.get('/getAll', (req, res) => {
+      let testArray = []
+
+              db.collection("shoes").orderBy("date", "desc").get().then((querySnapshot) => {
+                  querySnapshot.forEach((doc) => {
+                      // doc.data() is never undefined for query doc snapshots
+                      const userDetails = doc.data()
+                    testArray.push(userDetails)
+                  });
+              })
+              .then(() => {
+                res.status(400).send({
+                  status: "recieved", releases: testArray
+              })
+              })
+              .catch((error) => {
+                  console.log("Error getting documents: ", error);
+                  res.status(400).send({
+                    status: "recieved", message: "Error getting documents. "
+                })
+              });
+    
+    })
+
+server.post('/addShoes', async (req, res) => {
     const {parcel} = req.body;
-    console.log(parcel);
-    console.log(parcel.first);
-    console.log(parcel.last);
 
-    let userRef = db.collection("test")
+    let shoe = parcel.shoe
+    let date = new Date()
 
-    const snapshot = await userRef.where('first', '==', parcel.first).get();
+    let item = {
+      name: shoe.name,
+      brand: shoe.brand,
+      model: shoe.model,
+      price: shoe.price,
+      article: shoe.article,
+      date
+  }
 
-    if (snapshot.empty) {
-        console.log('No matching documents. Adding user to database!');
-        userRef.add(parcel)
+    let userRef = db.collection("shoes")
 
-        res.status(200).send({
-            status: "recieved",
-            message: `Person "${parcel.first+" "+parcel.last}" has been added!`
-        })
-        return;
-      }  
-      
-    else {
-        console.log('Person with first name already exists, updating last name!');
-        for (doc of snapshot.docs) {
-        let docRef = db.collection("test").doc(doc.id);
-        let oldCred = await docRef.get()
-        let oldCredData = oldCred.data()
-        console.log(oldCredData);
-        docRef.update({last: parcel.last})
 
-        res.status(200).send({
-            status: "recieved",
-            message: `Person "${oldCred.data().first+" "+oldCred.data().last}" has been updated to "${parcel.first+" "+parcel.last}"!`
-        })
 
-      };
-    }
+    console.log(item);
+
+    userRef.add(item)
+
+  //   res.status(400).send({
+  //     status: "recieved", message: "Adding document! "
+  // })
+
+    // const snapshot = await userRef.where('first', '==', parcel.first).get();
             // console.log(jwtest);
 
 })

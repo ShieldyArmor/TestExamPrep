@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#recentBox {
+    display: grid;
+    width: auto;
+    grid-template-rows: 1fr 1fr ;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    justify-content: center;
+}
+
+#recentBox > div {
+    margin: 8px;
+}
+
+#allBox {
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+    overflow: hidden;
+}
+
+#allBox > div {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 8px;
+    width: 250px;
+    height: auto;
+    /* border-radius: 12px;  */
+    transition: all 0.2s ease-in-out;
+    cursor: default;
+    /* box-shadow: 1px 1px 5px rgba(68, 68, 68, 0.212); */
+    cursor: pointer;
+}

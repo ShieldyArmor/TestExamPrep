@@ -5,9 +5,37 @@
     <!-- links -->
     <link rel="stylesheet" href="/CSS/admin.css">
 
-<h1>10 latest releases!</h1>
-<div id="recentBox">
+<h1>Add those new shoes!</h1>
+<div id="addShoesForm">
+
+<div>
+<label>Name:</label>
+<input id="nameField"></input>
+</div>
+
+<div>
+<label>Brand:</label>
+<input id="brandField"></input>
+</div>
+
+<div>
+<label>Model:</label>
+<input id="modelField"></input>
+</div>
+
+<div>
+<label>Price:</label>
+<input id="priceField"></input>
+</div>
+
+<div>
+<label>Article Number:</label>
+<input id="articleField"></input>
+</div>
+
+<button onclick="addShoes()">Add new shoe</button>            
 
 </div>
 
+<script src="js/admin.js" defer></script>
 <%- include('../partials/footer') -%>
