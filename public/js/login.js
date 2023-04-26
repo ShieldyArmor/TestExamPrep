@@ -3,7 +3,7 @@ async function login() {
     let username = document.getElementById("usernameField").value
     let errorText = document.getElementById("errorText")
 
-    const res = await fetch("http://localhost/login",
+    const res = await fetch("/login",
     {
         method: 'POST',
         headers: {
