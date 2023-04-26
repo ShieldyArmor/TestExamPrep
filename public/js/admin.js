@@ -1,5 +1,5 @@
 async function addShoes() {
-    let Fname = document.getElementById("nameField")
+let Fname = document.getElementById("nameField")
 let Fbrand = document.getElementById("brandField")
 let Fmodel = document.getElementById("modelField")
 let Fprice = document.getElementById("priceField")
