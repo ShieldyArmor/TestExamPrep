@@ -1,0 +1,42 @@
+<%- include('../partials/header'); -%>
+
+    <title>Database testing</title>
+
+    <!-- links -->
+    <link rel="stylesheet" href="/CSS/admin.css">
+
+<h1>KicksHub Admin Veileder!</h1>
+<div id="guideCont">          
+
+<h2>How to: lage en ubuntu bruker med nøkkelpålogging og gi bruker sudorettigheter</h2>
+<ul>
+    <li>Bruk "sudo adduser (navn)" for å begynne prosessen og følg med på hva den spørrer deg om.</li>
+    <li><img src="/img/userDetails.png" alt="" srcset=""></li>
+    <li>Da bruker vi "sudo usermod -aG sudo (navn)" å gi brukeren rettigheter å bruke sudo og sudo su kommandoen.</li>
+</ul>
+<br>
+<h2>How to: hoste en node-applikasjon</h2>
+<ul>
+    <li>Skriv inn "sudo apt install nodejs npm"</li>
+    <li>Naviger til "var" i root mappen og lag en mappe som heter "www" med bruk av kommandoen "mkdir"</li>
+    <li>Naviger til "www" mappen og bruk kommandoend "git clone (prosjekt URL, f.eks: https://github.com/ShieldyArmor/TestExamPrep)" slik at du får alle filene lastet ned</li>
+    <li>Gå inne den nye mappen som ble laget av git clone og buk "npm i" å laste opp alle node modules som vanligvis er ikke inkludert med github nedlastingen.</li>
+    <li>Fra her kan du bare bruke "node server.js" å kjøre serveren.</li>
+</ul>
+<br>
+<h3>Hvis du får en unsupported engine error</h3>
+<li><img src="/img/unsupported.png" alt="" srcset=""></li>
+<li>Vi laster ned Node med en annen måte. bruk "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash" å laste Node Version Manager.</li>
+<li>Etter det, bruk "export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm" å endelig lade opp NVM.</li>
+<li>Bruk "sudo apt remove nodejs" å få vekk gamle versjonen av Node.</li>
+<li>Da kan vi laste ned en nyere versjon av node med "nvm install v19.1.0"</li>
+<li>Og før vi kan kjøre serveren igjen. bruk de to kommandoene under å la sudo brukerne bruke nye versjon av nvm, node og npm.</li>
+<li>sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/node" "/usr/local/bin/node"</li>
+<li>sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/npm" "/usr/local/bin/npm"</li>
+
+<br>
+
+</div>
+
+<script src="js/admin.js" defer></script>
+<%- include('../partials/footer') -%>

@@ -40,7 +40,7 @@ recentBox.innerHTML = ""
 data.releases.forEach(e => {
     let dF = new Date(e.date._seconds * 1000 + e.date._nanoseconds/1000000)
     console.log(dF);
-    let displayDate = `${dF.getDay()}.${dF.getMonth()}.${dF.getFullYear()}, ${dF.getHours()}:${dF.getMinutes()}:${dF.getSeconds()}`
+    let displayDate = `${dF.getDate()}.${dF.getMonth()}.${dF.getFullYear()}, ${dF.getHours()}:${dF.getMinutes()}:${dF.getSeconds()}`
 
     let item = `
     <div>
@@ -74,7 +74,7 @@ async function getAll() {
     data.releases.forEach(e => {
         let dF = new Date(e.date._seconds * 1000 + e.date._nanoseconds/1000000)
         console.log(dF);
-        let displayDate = `${dF.getDay()}.${dF.getMonth()}.${dF.getFullYear()}, ${dF.getHours()}:${dF.getMinutes()}:${dF.getSeconds()}`
+        let displayDate = `${dF.getDate()}.${dF.getMonth()}.${dF.getFullYear()}, ${dF.getHours()}:${dF.getMinutes()}:${dF.getSeconds()}`
     
         let item = `
         <div>

@@ -181,7 +181,7 @@ server.post('/addShoes', async (req, res) => {
       brand: shoe.brand,
       model: shoe.model,
       price: shoe.price,
-      article: shoe.article,
+      articlenumber: shoe.article,
       date
   }
 
